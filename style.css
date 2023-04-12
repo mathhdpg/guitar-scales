@@ -1,0 +1,67 @@
+#braco th{
+    background-color: #ccc;
+}
+#braco th,
+#braco td {
+    width: 70px;
+    text-align: center; 
+}
+.tonica{
+    background-color: #666666 !important;
+}
+.segundaMenor{
+    background-color: #c3e5c3 !important;
+}
+.segundaMaior{
+    background-color: #88CC88 !important;
+}
+.tercaMenor{
+    background-color: #b2d7e9 !important;
+}
+.tercaMaior{
+    background-color: #007cb6 !important;
+}
+.quartaJusta{
+    background-color: #FFA500 !important;
+}
+.quartaAumentada{
+    background-color: #ff8069 !important;
+}
+.quintaJusta{
+    background-color: #e7002f !important;
+}
+.sextaMenor{
+    background-color: #cc8888 !important;
+}
+.sextaMaior{
+    background-color: #a95959 !important;
+}
+.setimaMenor{
+    background-color: #ffd7ff !important;
+}
+.setimaMaior{
+    background-color: #cc88cc !important;
+}
+
+.tonica,
+.tercaMaior,
+.quartaJusta,
+.quintaJusta,
+.sextaMaior{
+    color: white;
+}
+span.intervalo { 
+    display: none;
+}
+.intervalosEscala div{ 
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+    margin-right: 5px;
+    text-align: center;
+    border: solid black 2px;
+}
+.intervalosEscala{
+    height: 30px;
+}
