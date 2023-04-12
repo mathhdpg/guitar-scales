@@ -1,151 +1,146 @@
-var listaNotas = getListaNotas();
-function getListaNotas() {
+var listNotes = getListNotes();
+function getListNotes() {
 	var arr = [];
-	for (var i = 0; i < notas.length; i++) {
-		var nota = new Nota(notas[i], notas2[i]);
-		arr.push(nota);
-		if (i > 0) arr[i-1].setNext(nota);
+	for (var i = 0; i < notes.length; i++) {
+		var note = new Note(notes[i], notes2[i]);
+		arr.push(note);
+		if (i > 0) arr[i-1].setNext(note);
 	}
 	arr[arr.length-1].setNext(arr[0]);
 	return arr;
 }
 
-function selectNota(nome) {
-	for (var i = 0; i < notas.length; i++) {
-		if (listaNotas[i].nome == nome) return listaNotas[i];
-		if (listaNotas[i].nome2 == nome) return listaNotas[i];
+function selectNote(name) {
+	for (var i = 0; i < notes.length; i++) {
+		if (listNotes[i].name == name) return listNotes[i];
+		if (listNotes[i].name2 == name) return listNotes[i];
 	}
-	throw 'nota (' +nome+ ')não encontrada';
+	throw 'Nota (' +name+ ') não encontrada';
 }
 
-$(document).ready(function() {
-	criaTHCasas();
-	criaOptionsTom();
-	criaOptionsAfinacao();
-	criaOptionsEscalas();
-	criaCordas(listaAfinacoes[0].notas);
+window.onload = function() {
+	createCheckboxDegrees();
+	createTHFrets();
+	
+	createOptionsByArray(listNotes, "key");
+	createOptionsByArray(listScales, "scale");
+	createOptionsByArray(listTunings, "tuning");
+	
+	createStrings(listTunings[0].notes);
 	redraw();
 	
-	exibirBraco(0);
+	showNeck(0);
 	
-	$(".checkIntervalo").change(function() {
-		var idTom = $("#tom").val();
-		colorirIntervalos(idTom)
+	document.querySelectorAll(".checkInterval").forEach(checkbox => {
+		checkbox.addEventListener("change", function() {
+			var idKey = document.getElementById("key").value;
+			colorIntervals(idKey)
+		});
 	});
-});
+}
 
-function criaCordas(afinacao) {
+function createCheckboxDegrees() {
+	degreesExtenso.forEach((grau, index) => {
+		let html = 
+		`<div class="form-check">
+			<input type="checkbox" class="form-check-input checkInterval" id="cbIntervals_${index}" value="${index}" checked="checked"/>
+			<label class="form-check-label" for="cbIntervals_${index}">${grau}</label>
+		</div>`;
+		$(".intervals").append(html);
+	});
+}
+
+function createStrings(tuning) {
 	for (var o = 0; o < 6; o++) {
-		var html = "<th class='nota_" + afinacao[o].replace("#", "x") + "'><span class='nota'>" + afinacao[o] + "</span><span class='intervalo'><span></th>";
-		var nota = selectNota(afinacao[o]);
-		for (var i = 1; i <= QTDE_CASAS; i++) {
-			nota = nota.getNext();
-			var classe = "nota_" + nota.nome.replace("#", "x");
-			if (nota.nome2 != "") classe += " nota_" + nota.nome2;
-			html += "<td class='" + classe + "'><span class='nota'>" + nota.nome + "</span><span class='intervalo'><span></td>";
+		var html = "<th class='note_" + tuning[o].replace("#", "x") + "'><span class='note'>" + tuning[o] + "</span><span class='interval'><span></th>";
+		var note = selectNote(tuning[o]);
+		for (var i = 1; i <= numFrets; i++) {
+			note = note.getNext();
+			var classe = "note_" + note.name.replace("#", "x");
+			if (note.name2 != "") classe += " note_" + note.name2;
+			html += "<td class='" + classe + "'><span class='note'>" + note.name + "</span><span class='interval'><span></td>";
 		}
-		$('#corda' + (o+1)).html(html);
+		$('#string' + (o+1)).html(html);
 	}
-	var nota = listaNotas[$("#tom").val()];
-	for (var k in graus) {
-		$(".nota_" + nota.nome.replace("#", "x")).find("span.intervalo").html(graus[k]);
-		nota = nota.getNext();
+	var note = listNotes[$("#key").val()];
+	for (var k in degrees) {
+		$(".note_" + note.name.replace("#", "x")).find("span.interval").html(degrees[k]);
+		note = note.getNext();
 	}
 }
 
-function criaTHCasas() {
+function createTHFrets() {
 	var html = "<th></th>";
-	for (var i = 1; i <= QTDE_CASAS; i++) {
+	for (var i = 1; i <= numFrets; i++) {
 		html += "<th>" + i + "</th>";
 	}
-	$('.casas').html(html);
+	$('.frets').html(html);
 }
 
-function criaOptionsTom() {
-	var html = "";
-	for (var k in listaNotas) {
-		html += "<option value='" + k + "' " + (k == 0 ? 'selected="selected"' : '') + ">" + listaNotas[k].nome + "</option>";
-	}
-	$("#tom").html(html);
-}
 
-function criaOptionsTomOrdenado(idOrdem) {
+
+function createOptionsKeySorted(idOrdem) {
 	var html = "";
-	var intervalo = ordenacaoIntervalo[idOrdem];
+	var interval = sortingInterval[idOrdem];
 	var aux = 0;
 	for (var i = 1; i <= 12; i++)  {
-		html += "<option value='" + aux + "' " + (aux == 0 ? 'selected="selected"' : '') + ">" + notas[aux] + "</option>";
-		aux += intervalo;
-		if (aux >= notas.length)  aux -= notas.length;
+		html += "<option value='" + aux + "' " + (aux == 0 ? 'selected="selected"' : '') + ">" + notes[aux] + "</option>";
+		aux += interval;
+		if (aux >= notes.length)  aux -= notes.length;
 	}
 
-	$("#tom").html(html);
+	$("#key").html(html);
 }
-
-function criaOptionsEscalas() {
-	var html = "";
-	for (var i = 0; i < listaEscalas.length; i++) {
-		html += "<option value='" + i + "' " + (i == 0 ? 'selected="selected"' : '') + ">" + listaEscalas[i].nome + "</option>";
-	}
-	$("#escala").html(html);
+function createOptionsByArray(array, idSelect) {
+	array.forEach((item, index) => {
+		$("#" + idSelect).append(`<option value='${index}' ${index == 0 ? 'selected="selected"' : ''}>${item.name}</option>`);
+	});
 }
-
-function criaOptionsAfinacao() {
-	var html = "";
-	for (var i = 0; i < listaAfinacoes.length; i++) {
-		html += "<option value='" + i + "' " + (i == 0 ? 'selected="selected"' : '') + ">" + listaAfinacoes[i].nome + "</option>";
-	}
-	$("#afinacao").html(html);
+function changeTuning(idTuning) {
+	createStrings(listTunings[idTuning].notes);
+	colorIntervalsScale($("#scale").val());
 }
-function mudarOrdenacao(idOrdenacao) {
-	getEscala();
-}
-function alteraAfinacao(idAfinacao) {
-	criaCordas(listaAfinacoes[idAfinacao].notas);
-	colorirIntervalosEscala($("#escala").val());
-}
-
-function colorirIntervalos(idTom) {
-	criaCordas(listaAfinacoes[$("#afinacao").val()].notas);
-	var nota = listaNotas[idTom];
+function colorIntervals(idKey) {
+	createStrings(listTunings[$("#tuning").val()].notes);
+	var note = listNotes[idKey];
 	var htmlCores = "";
-	for (var k in graus) {
-		$(".nota_" + nota.nome.replace("#", "x")).find('span').hide();
-		if ($("#cbIntervalos_" + k).is(":checked")) {
-			$(".nota_" + nota.nome.replace("#", "x")).addClass(classeGraus[k]);
+	for (var k in degrees) {
+		$(".note_" + note.name.replace("#", "x")).find('span').hide();
+		if ($("#cbIntervals_" + k).is(":checked")) {
+			$(".note_" + note.name.replace("#", "x")).addClass(classeDegrees[k]);
 			
-			htmlCores += "<div class='" + classeGraus[k] + "'>" + graus[k] + "</div>";
+			htmlCores += "<div class='" + classeDegrees[k] + "'>" + degrees[k] + "</div>";
 			
-			if ($("#exibirBraco").val() == 0) $(".nota_" + nota.nome.replace("#", "x")).find('span.nota').show();
-			else $(".nota_" + nota.nome.replace("#", "x")).find('span.intervalo').show();
+			if ($("#showNeck").val() == 0) $(".note_" + note.name.replace("#", "x")).find('span.note').show();
+			else $(".note_" + note.name.replace("#", "x")).find('span.interval').show();
 		}
-		nota = nota.getNext();
+		note = note.getNext();
 	}
-	$(".intervalosEscala").html(htmlCores);
+	$(".intervalsScale").html(htmlCores);
 }
 
-function colorirIntervalosEscala(idEscala) {
-	$(".checkIntervalo").prop("checked", false);
-	var escala = listaEscalas[idEscala];
-	for (var i = 0; i < escala.intervalos.length; i++) {
-		$("#cbIntervalos_" + escala.intervalos[i]).prop("checked", true);
+function colorIntervalsScale(idScale) {
+	$(".checkInterval").prop("checked", false);
+	var scale = listScales[idScale];
+	for (var i = 0; i < scale.intervals.length; i++) {
+		$("#cbIntervals_" + scale.intervals[i]).prop("checked", true);
 	}
-	var idTom = $("#tom").val();
-	colorirIntervalos(idTom)
+	var idKey = $("#key").val();
+	colorIntervals(idKey)
 }
 
-function exibirBraco(idExibicao) {
+function showNeck(idExibicao) {
 	if (idExibicao == 0) {
-		$('span.nota').show();
-		$('span.intervalo').hide();
+		$('span.note').show();
+		$('span.interval').hide();
 	} else {
-		$('span.intervalo').show();
-		$('span.nota').hide();
+		$('span.interval').show();
+		$('span.note').hide();
 	}
 	redraw();
 }
 function redraw() {
-	colorirIntervalosEscala($("#escala").val());
+	colorIntervalsScale($("#scale").val());
 	$("input:checkbox:not(:checked)").each(function() {
 		$(this).val();
 	});
