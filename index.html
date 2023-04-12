@@ -4,105 +4,90 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="style.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
-    <script src="scripts/Afinacao.js"></script>
-    <script src="scripts/Escala.js"></script>
-    <script src="scripts/Nota.js"></script>
-    <script src="scripts/Constantes.js"></script>
+    <script src="scripts/Tuning.js"></script>
+    <script src="scripts/Scale.js"></script>
+    <script src="scripts/Note.js"></script>
+    <script src="scripts/Constants.js"></script>
     <script src="scripts/script.js"></script>
-    <title>Escalas</title>
+    <title>Scales</title>
 </head>
 <body>
-    <table id="braco" border="1">
-        <tr class="casas"></tr>
-        <tr id="corda1"></tr>
-        <tr id="corda2"></tr>
-        <tr id="corda3"></tr>
-        <tr id="corda4"></tr>
-        <tr id="corda5"></tr>
-        <tr id="corda6"></tr>
-        <tr class="casas"></tr>
-    </table>
-    <hr />
-    <div class="col col2">
-        <label>Mostrar: </label>
-        <select id="exibirBraco" onchange="exibirBraco(this.value)">
-            <option value="0">Notas</option>
-            <option value="1">Intervalos</option>
-        </select>
-    </div>
-    <div class="col col2">
-        <label>Afinação: </label>
-        <select id="afinacao" onchange="alteraAfinacao(this.value)">
-            <option>Standart</option>
-        </select>
-    </div>
-    <div class="col col2">
-        <label>Ordenar Por: </label>
-        <select onchange="criaOptionsTomOrdenado(this.value)">
-            <option value="0">Sequencia</option>
-            <option value="1">Quartas</option>
-            <option value="2">Quintas</option>
-        </select>
-    </div>
-    <div class="col col2">
-        <label>Tom: </label>
-        <select id="tom" onchange="colorirIntervalos(this.value)">
-            <option></option>
-        </select>
-    </div>
-    <div class="col col2">
-        <label>Escala: </label>
-        <select id="escala" onchange="colorirIntervalosEscala(this.value)">
-            <option></option>
-        </select>
-    </div>
-    <div class="col col12 separator"></div>
-    <div class="intervalosEscala"></div>
-    <div class="col col12 separator"></div>
-    <div class="campoHarmonico"></div>
-    <div class="col col12 separator"></div>
-    
-    <div class="col col6">
-        <label>Intervalos: </label><br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_0" value="0" checked="checked"/> Tonica<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_1" value="1"/> Segunda Menor<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_2" value="2"/> Segunda Maior<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_3" value="3"/> Terça Menor<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_4" value="4" checked="checked"/> Terça Maior<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_5" value="5"/> Quarta Justa<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_6" value="6"/> Quarta Aumentada / Quinta Diminuta<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_7" value="7" checked="checked"/> Quinta Justa<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_8" value="8"/> Sexta Menor<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_9" value="9"/> Sexta Maior<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_10" value="10"/> Sétima Menor<br/>
-        <input type="checkbox" class="checkIntervalo" id="cbIntervalos_11" value="11"/> Sétima Maior<br/>
-    </div>
-    <div class="col col6">
-        Agora sobre que acorde vamos aplicar as escalas... heheh aí que ta o misterio da coisa. <br/>
-    
-        O C jonio pode ser aplicada sobre os acordes C, C7M, C6, C6(9), C7M(13), Csus4. <br/>
-        
-        O D dorico pode ser aplicado sobre esses acordes Dm, Dm7, Dm6, Dm11, Dm13, Dm6(9) <br/>
-        
-        O E frigio pode ser usado sobre os seguintes acordes Em, Em7, Em11, Em(b9) <br/>
-        
-        O F Lidio pode ser usado sobre os seguintes acordes F, F7M, F6, F7M(#11), F7M(13), F6(9) <br/>
-        
-        O G mixolidio pode ser usado sobre os seguintes acordes G, G7, G6, G7(9), Gsus7(4), G7(11) <br/>
-        
-        O A eolio pode ser usado sobre os seguintes acordes Am, Am7, Am7(9), Am7(#5),Am7(11), Am(add9), Am11 <br/>
-        
-        O B lócrio pode ser usado sobre os seguintes acordes Bdim, Bm7(b5), Bm11 <br/><br/>
-        
-        Exemplo de uma progressão: <br/>
-        C7M - C7(9) - F7M - Fm7(acorde de emprestimo modal) <br/><br/>
-        
-        Sobre C7M pode ser usada a escala o C jonio<br/> 
-        Sobre C7(9) pode ser usada a escala C mixolidio<br/>
-        Sobre o acorde de F7M pode ser usadaa escala de F Lidio <br/>
-        e sobre o acorde de Fm7 pode ser usada a escala F dórico<br/><br/>
+    <div class="container-fluid">
+        <h1 class="text-center">Scales</h1>
+        <table id="neck" class="table table-bordered">
+            <tr class="frets"></tr>
+            <tr id="string1"></tr>
+            <tr id="string2"></tr>
+            <tr id="string3"></tr>
+            <tr id="string4"></tr>
+            <tr id="string5"></tr>
+            <tr id="string6"></tr>
+            <tr class="frets"></tr>
+        </table>
+        <div class="container intervalsScale"></div>
+        <!-- <div class="campoHarmonico"></div> -->
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="showNeck" class="form-select" onchange="showNeck(this.value)">
+                            <option value="0">Notas</option>
+                            <option value="1">Intervals</option>
+                        </select>
+                        <label for="showNeck">Mostrar: </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="tuning" class="form-select" onchange="changeTuning(this.value)">
+                            <option>Standart</option>
+                        </select>
+                        <label for="tuning">Afinação: </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="sortingKey" class="form-select" onchange="createOptionsKeySorted(this.value)">
+                            <option value="0">Sequencia</option>
+                            <option value="1">Quartas</option>
+                            <option value="2">Quintas</option>
+                        </select>
+                        <label for="sortingKey">Ordenar Por: </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="key" class="form-select" onchange="colorIntervals(this.value)">
+                            <option></option>
+                        </select>
+                        <label for="key">Key: </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="scale" class="form-select" onchange="colorIntervalsScale(this.value)">
+                            <option></option>
+                        </select>
+                        <label for="scale">Scale: </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col intervals">
+                    <h5>Intervals: </h5>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
-</html>
+</html> 

@@ -1,8 +1,8 @@
-#braco th{
+#neck th{
     background-color: #ccc;
 }
-#braco th,
-#braco td {
+#neck th,
+#neck td {
     width: 70px;
     text-align: center; 
 }
@@ -50,18 +50,19 @@
 .sextaMaior{
     color: white;
 }
-span.intervalo { 
+span.interval { 
     display: none;
 }
-.intervalosEscala div{ 
-    width: 30px;
+.intervalsScale {
     height: 30px;
+    text-align: center;
+}
+.intervalsScale div{ 
+    width: 35px;
+    height: 35px;
     line-height: 30px;
-    float: left;
     margin-right: 5px;
     text-align: center;
     border: solid black 2px;
-}
-.intervalosEscala{
-    height: 30px;
+    display: inline-block;
 }
