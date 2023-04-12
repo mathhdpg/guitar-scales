@@ -1,22 +1,4 @@
 var notesList = getListNotes();
-function getListNotes() {
-	var arr = [];
-	for (var i = 0; i < notes.length; i++) {
-		var note = new Note(notes[i], notes2[i]);
-		arr.push(note);
-		if (i > 0) arr[i-1].setNext(note);
-	}
-	arr[arr.length-1].setNext(arr[0]);
-	return arr;
-}
-
-function selectNote(name) {
-	for (var i = 0; i < notes.length; i++) {
-		if (notesList[i].name == name) return notesList[i];
-		if (notesList[i].name2 == name) return notesList[i];
-	}
-	throw 'Nota (' +name+ ') não encontrada';
-}
 
 window.onload = function() {
 	createCheckboxDegrees();
@@ -38,6 +20,26 @@ window.onload = function() {
 		});
 	});
 }
+
+function getListNotes() {
+	var arr = [];
+	for (var i = 0; i < notes.length; i++) {
+		var note = new Note(notes[i], notes2[i]);
+		arr.push(note);
+		if (i > 0) arr[i-1].setNext(note);
+	}
+	arr[arr.length-1].setNext(arr[0]);
+	return arr;
+}
+
+function selectNote(name) {
+	for (var i = 0; i < notes.length; i++) {
+		if (notesList[i].name == name) return notesList[i];
+		if (notesList[i].name2 == name) return notesList[i];
+	}
+	throw 'Nota (' +name+ ') não encontrada';
+}
+
 
 function createCheckboxDegrees() {
 	degreesExtenso.forEach((grau, index) => {
@@ -77,9 +79,7 @@ function createTHFrets() {
 	$('.frets').html(html);
 }
 
-
-
-function createOptionsKeySorted(idOrdem) {
+function createSortedKeyOptions(idOrdem) {
 	var html = "";
 	var interval = sortingInterval[idOrdem];
 	var aux = 0;
@@ -98,7 +98,7 @@ function createOptionsByArray(array, idSelect) {
 }
 function changeTuning(idTuning) {
 	createStrings(tuningsList[idTuning].notes);
-	colorIntervalsScale($("#scale").val());
+	colorScaleIntervals($("#scale").val());
 }
 function colorIntervals(idKey) {
 	createStrings(tuningsList[$("#tuning").val()].notes);
@@ -119,7 +119,7 @@ function colorIntervals(idKey) {
 	$(".intervalsScale").html(htmlCores);
 }
 
-function colorIntervalsScale(idScale) {
+function colorScaleIntervals(idScale) {
 	$(".checkInterval").prop("checked", false);
 	var scale = scalesList[idScale];
 	for (var i = 0; i < scale.intervals.length; i++) {
@@ -140,7 +140,7 @@ function showNeck(idExibicao) {
 	redraw();
 }
 function redraw() {
-	colorIntervalsScale($("#scale").val());
+	colorScaleIntervals($("#scale").val());
 	$("input:checkbox:not(:checked)").each(function() {
 		$(this).val();
 	});

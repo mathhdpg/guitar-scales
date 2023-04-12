@@ -54,7 +54,7 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select id="sortingKey" class="form-select" onchange="createOptionsKeySorted(this.value)">
+                        <select id="sortingKey" class="form-select" onchange="createSortedKeyOptions(this.value)">
                             <option value="0">Sequencia</option>
                             <option value="1">Quartas</option>
                             <option value="2">Quintas</option>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select id="scale" class="form-select" onchange="colorIntervalsScale(this.value)">
+                        <select id="scale" class="form-select" onchange="colorScaleIntervals(this.value)">
                             <option></option>
                         </select>
                         <label for="scale">Scale: </label>
