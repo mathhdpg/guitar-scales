@@ -1,4 +1,4 @@
-var listNotes = getListNotes();
+var notesList = getListNotes();
 function getListNotes() {
 	var arr = [];
 	for (var i = 0; i < notes.length; i++) {
@@ -12,8 +12,8 @@ function getListNotes() {
 
 function selectNote(name) {
 	for (var i = 0; i < notes.length; i++) {
-		if (listNotes[i].name == name) return listNotes[i];
-		if (listNotes[i].name2 == name) return listNotes[i];
+		if (notesList[i].name == name) return notesList[i];
+		if (notesList[i].name2 == name) return notesList[i];
 	}
 	throw 'Nota (' +name+ ') não encontrada';
 }
@@ -22,11 +22,11 @@ window.onload = function() {
 	createCheckboxDegrees();
 	createTHFrets();
 	
-	createOptionsByArray(listNotes, "key");
-	createOptionsByArray(listScales, "scale");
-	createOptionsByArray(listTunings, "tuning");
+	createOptionsByArray(notesList, "key");
+	createOptionsByArray(scalesList, "scale");
+	createOptionsByArray(tuningsList, "tuning");
 	
-	createStrings(listTunings[0].notes);
+	createStrings(tuningsList[0].notes);
 	redraw();
 	
 	showNeck(0);
@@ -62,7 +62,7 @@ function createStrings(tuning) {
 		}
 		$('#string' + (o+1)).html(html);
 	}
-	var note = listNotes[$("#key").val()];
+	var note = notesList[$("#key").val()];
 	for (var k in degrees) {
 		$(".note_" + note.name.replace("#", "x")).find("span.interval").html(degrees[k]);
 		note = note.getNext();
@@ -97,12 +97,12 @@ function createOptionsByArray(array, idSelect) {
 	});
 }
 function changeTuning(idTuning) {
-	createStrings(listTunings[idTuning].notes);
+	createStrings(tuningsList[idTuning].notes);
 	colorIntervalsScale($("#scale").val());
 }
 function colorIntervals(idKey) {
-	createStrings(listTunings[$("#tuning").val()].notes);
-	var note = listNotes[idKey];
+	createStrings(tuningsList[$("#tuning").val()].notes);
+	var note = notesList[idKey];
 	var htmlCores = "";
 	for (var k in degrees) {
 		$(".note_" + note.name.replace("#", "x")).find('span').hide();
@@ -121,7 +121,7 @@ function colorIntervals(idKey) {
 
 function colorIntervalsScale(idScale) {
 	$(".checkInterval").prop("checked", false);
-	var scale = listScales[idScale];
+	var scale = scalesList[idScale];
 	for (var i = 0; i < scale.intervals.length; i++) {
 		$("#cbIntervals_" + scale.intervals[i]).prop("checked", true);
 	}
