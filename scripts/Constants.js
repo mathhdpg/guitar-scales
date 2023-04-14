@@ -8,6 +8,7 @@ const classeDegrees = ['tonica', 'segundaMenor', 'segundaMaior', 'tercaMenor', '
 
 const scalesList = [];
 const tuningsList = [];
+const chordsList = [];
 
 tuningsList.push(new Tuning("Standart", ["E", "B", "G", "D", "A", "E"]));
 tuningsList.push(new Tuning("Drop D", ["E", "B", "G", "D", "A", "D"]));
@@ -60,3 +61,19 @@ scalesList.push(new Scale("Penta M7", [0, 4, 5, 7, 10], true));
 scalesList.push(new Scale("Cromática", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]));
 scalesList.push(new Scale("Simetrica 124", [0, 1, 3, 6, 7, 9], true));
 scalesList.push(new Scale("Simetrica 134", [0, 2, 3, 6, 8, 9], true));
+
+let x = null;
+chordsList.push(new Chord("C", "C",   [x, 3, 2, 0, 1, 0]));
+chordsList.push(new Chord("D", "D",   [x, x, 0, 2, 3, 2]));
+chordsList.push(new Chord("E", "E",   [0, 2, 2, 1, 0, 0]));
+chordsList.push(new Chord("F", "F",   [1, 3, 3, 2, 1, 1]));
+chordsList.push(new Chord("G", "G",   [3, 2, 0, 0, 0, 3]));
+chordsList.push(new Chord("A", "A",   [x, 0, 2, 2, 2, 0]));
+chordsList.push(new Chord("B", "B",   [x, 2, 4, 4, 4, 2]));
+chordsList.push(new Chord("C", "Cm",  [x, 3, 5, 5, 4, 3]));
+chordsList.push(new Chord("D", "Dm",  [x, x, 0, 2, 3, 1]));
+chordsList.push(new Chord("E", "Em",  [0, 2, 2, 0, 0, 0]));
+chordsList.push(new Chord("F", "Fm",  [1, 3, 3, 1, 1, 1]));
+chordsList.push(new Chord("G", "Gm",  [3, 5, 5, 3, 3, 3]));
+chordsList.push(new Chord("A", "Am",  [x, 0, 2, 2, 1, 0]));
+chordsList.push(new Chord("B", "Bm",  [x, 2, 4, 4, 3, 2]));

@@ -5,6 +5,7 @@ window.onload = function() {
 	createTHFrets();
 	
 	createOptionsByArray(notesList, "key");
+	createOptionsByArray(chordsList, "chords");
 	createOptionsByArray(scalesList, "scale");
 	createOptionsByArray(tuningsList, "tuning");
 	
@@ -54,17 +55,21 @@ function createCheckboxDegrees() {
 
 function createStrings(tuning) {
 	for (var o = 0; o < 6; o++) {
-		var html = "<th class='note_" + tuning[o].replace("#", "x") + "'><span class='note'>" + tuning[o] + "</span><span class='interval'><span></th>";
+		var html = `<th class='note_${tuning[o].replace("#", "x")} string_${o}_fret_${0}'><span class='note'>${tuning[o]}</span><span class='interval'><span></th>`;
 		var note = selectNote(tuning[o]);
+		if (typeof note === "undefined") return;
+
 		for (var i = 1; i <= numFrets; i++) {
 			note = note.getNext();
 			var classe = "note_" + note.name.replace("#", "x");
+			classe += ` string_${o}_fret_${i}`;
 			if (note.name2 != "") classe += " note_" + note.name2;
 			html += "<td class='" + classe + "'><span class='note'>" + note.name + "</span><span class='interval'><span></td>";
 		}
 		$('#string' + (o+1)).html(html);
 	}
 	var note = notesList[$("#key").val()];
+	if (typeof note === "undefined") return;
 	for (var k in degrees) {
 		$(".note_" + note.name.replace("#", "x")).find("span.interval").html(degrees[k]);
 		note = note.getNext();
@@ -103,6 +108,8 @@ function changeTuning(idTuning) {
 function colorIntervals(idKey) {
 	createStrings(tuningsList[$("#tuning").val()].notes);
 	var note = notesList[idKey];
+	if (typeof note === "undefined") return;
+
 	var htmlCores = "";
 	for (var k in degrees) {
 		$(".note_" + note.name.replace("#", "x")).find('span').hide();
@@ -127,6 +134,18 @@ function colorScaleIntervals(idScale) {
 	}
 	var idKey = $("#key").val();
 	colorIntervals(idKey)
+}
+
+function colorChord(idChord) {
+	$(".chordColor").removeClass("chordColor");
+	var chord = chordsList[idChord];
+	if (typeof chord === "undefined") return;
+
+	var notes = [...chord.notes];
+	notes.reverse();
+	for (var i = 0; i < notes.length; i++) {
+		$(`.string_${i}_fret_${notes[i]}`).addClass("chordColor");
+	}
 }
 
 function showNeck(idExibicao) {

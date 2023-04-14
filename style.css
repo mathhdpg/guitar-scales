@@ -66,3 +66,7 @@ span.interval {
     border: solid black 2px;
     display: inline-block;
 }
+
+.chordColor {
+    background-color: #e7002f !important;
+}

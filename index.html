@@ -11,6 +11,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
     <script src="scripts/Tuning.js"></script>
+    <script src="scripts/Chord.js"></script>
     <script src="scripts/Scale.js"></script>
     <script src="scripts/Note.js"></script>
     <script src="scripts/Constants.js"></script>
@@ -46,9 +47,7 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select id="tuning" class="form-select" onchange="changeTuning(this.value)">
-                            <option>Standart</option>
-                        </select>
+                        <select id="tuning" class="form-select" onchange="changeTuning(this.value)"></select>
                         <label for="tuning">Afinação: </label>
                     </div>
                 </div>
@@ -76,6 +75,14 @@
                             <option></option>
                         </select>
                         <label for="scale">Scale: </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select id="chords" class="form-select" onchange="colorChord(this.value)">
+                            <option></option>
+                        </select>
+                        <label for="chords">Chords: </label>
                     </div>
                 </div>
             </div>
